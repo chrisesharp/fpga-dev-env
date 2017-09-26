@@ -1,0 +1,21 @@
+- block:
+  - name: Create .Xauthority
+    file: 
+      path: /home/vagrant/.Xauthority
+      state: touch
+  - name: Link config files for user
+    file:
+      src: /vagrant/v_home/{{ item.path }}
+      dest: /home/vagrant/{{ item.dest }}
+      state: link
+    with_items:
+      - { path: '.config', dest: '.config' }
+      - { path: '.local',  dest: '.local' }
+      - { path: '.java',   dest: '.java' }
+      - { path: '.swt',    dest: '.swt' }
+      - { path: 'mojo',    dest: 'mojo' }
+      - { path: 'altera',  dest: 'altera' }
+      - { path: 'bin',     dest: 'bin' }
+  become: true
+  become_user: vagrant
+

@@ -1,0 +1,34 @@
+- name: Add Design Lab deps
+  apt: name={{item}} 
+  with_items: ['libftdi-dev','gawk','default-jre']
+  tags: [papilio]
+
+- name: Enable Pipistrello LX45
+  copy:
+    src: /opt/pipistrello/97-pipistrello.rules
+    dest: /etc/udev/rules.d/
+    owner: root
+    group: root
+    mode: 0644
+  tags: [papilio]
+
+- name: Reload udev
+  shell: udevadm control --reload
+  tags: [papilio]
+
+- name: Install fpgaprog
+  unarchive:
+    src: http://www.saanlima.com/download/fpgaprog-linux.tgz
+    dest: /opt/pipistrello/
+    creates: /opt/pipistrello/fpgaprog-linux/lin64/fpgaprog
+    remote_src: yes
+  tags: [papilio]
+
+- name: Copy fpgaprog into bin
+  copy:
+    src: /opt/pipistrello/fpgaprog-linux/lin64/fpgaprog
+    dest: /usr/local/bin/
+    owner: root
+    group: root
+    mode: 0755
+  tags: [papilio]

@@ -1,0 +1,58 @@
+- name: Add Lattice deps
+  apt: name={{item}} 
+  with_items: ['python-pip','rpm','rpm2cpio','csh']
+  tags: [lattice]
+
+- name: Install libusb1 in Python 2.7
+  pip: name=libusb1 version=1.6.4 state=present
+  tags: [lattice]
+
+
+# Need diamond_3_9-sp1_x64-119-1-x86_64-linux.rpm to be downloaded from Lattice site first
+# from http://www.latticesemi.com/Products/DesignSoftwareAndIP/FPGAandLDS/LatticeDiamond.aspx#linux
+- name: Unpack Lattice Diamond
+  shell: |
+    rpm2cpio ../diamond_3_9-sp1_x64-119-1-x86_64-linux.rpm | cpio -idmv  
+    RPM_INSTALL_PREFIX=$PWD/usr/local bash postin.sh
+    cp -Rva --no-preserve=ownership ./usr/local/diamond /usr/local/
+  args:
+    chdir: /opt/lattice/diamond
+    creates: /opt/lattice/diamond/
+  tags: [lattice]
+
+- name: Install Lattice Driver fix
+  copy: 
+    src: /opt/lattice/diamond/ftdi_fixer.py 
+    dest: /usr/local/bin/ftdi_fixer.py  
+    mode: 0755
+  tags: [lattice]
+
+- name: Install Lattice Driver license
+  copy: 
+    src: /opt/lattice/diamond/license.dat 
+    dest: /opt/lattice/diamond/usr/local/diamond/3.9_x64/license/
+  tags: [lattice]
+
+- name: Enable Lattice Driver
+  copy:
+    src: /opt/lattice/diamond/10-lattice.rules
+    dest: /etc/udev/rules.d/
+    owner: root
+    group: root
+    mode: 0644
+  tags: [lattice]
+    
+- name: Reload udev
+  shell: udevadm control --reload
+  tags: [lattice]
+
+- name: add {{diamond_path}} to path
+  vars:
+    diamond_path: /usr/local/diamond/3.9_x64/bin/lin64
+  lineinfile: >
+   dest=/etc/environment
+   state=present
+   backrefs=yes
+   regexp='PATH=(["]*)((?!.*?{{diamond_path}}).*?)(["]*)$'
+   line="PATH=\1\2:{{diamond_path}}\3"
+  tags: [lattice]

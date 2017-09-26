@@ -1,0 +1,17 @@
+- name: Root level
+  hosts: localhost
+  remote_user: root
+  roles:
+    - media
+    - ghdl
+    - mojo
+    - papilio
+    - xilinx
+    - quartus
+    - lattice
+
+- name: Vagrant user-specific
+  hosts: localhost
+  remote_user: vagrant
+  roles:
+    - vagrant

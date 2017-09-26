@@ -1,0 +1,9 @@
+- name: Add GHDL repo
+  apt_repository:
+    repo: 'ppa:pgavin/ghdl'
+
+- name: Add ghdl
+  apt: name={{item}} 
+  with_items: ['ghdl']
+  tags: [ghdl]
+

@@ -1,0 +1,51 @@
+- name: Add Xilinx deps
+  apt: name={{item}} 
+  with_items: ['gitk','git-gui','libusb-dev','build-essential','libc6-dev-i386','fxload', 'firefox', 'libmotif3', 'libxp6', 'libstdc++5']
+  tags: [xilinx]
+
+# Requires the install tar already present (6GB!) 
+# from https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_ISE_DS_Lin_14.7_1015_1.tar&akdm=1
+- name: Unpack ISE tar
+  unarchive: 
+    src: /opt/Xilinx/Xilinx_ISE_DS_Lin_14.7_1015_1.tar
+    dest: /opt/Xilinx/
+    creates: /opt/Xilinx/Xilinx_ISE_DS_Lin_14.7_1015_1/bin/lin64/batchxsetup
+  tags: [xilinx]
+
+- name: Install ISE
+  shell: ./batchxsetup -batch ../../../install-batch
+  args:
+    chdir: /opt/Xilinx/Xilinx_ISE_DS_Lin_14.7_1015_1/bin/lin64
+    creates: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/ise
+  tags: [xilinx]
+
+- name: Download ISE USB drivers
+  shell: git clone git://git.zerfleddert.de/usb-driver
+  args:
+    chdir: /opt/Xilinx/
+    creates: /opt/Xilinx/usb-driver/setup_pcusb
+  tags: [xilinx]
+
+- name: Install ISE USB drivers
+  shell: |
+    make
+    ./setup_pcusb /opt/Xilinx/14.7/ISE_DS/ISE/
+  args:
+    chdir: /opt/Xilinx/usb-driver/
+    creates: /etc/udev/rules.d/xusbdfwu.rules
+  tags: [xilinx]
+
+- name: Reload udev
+  shell: udevadm control --reload
+  tags: [xilinx]
+
+- name: add {{xilinx_path}} to path
+  vars:
+    xilinx_path: /opt/Xilinx/14.7/ISE_DS/
+  lineinfile: >
+   dest=/etc/environment
+   state=present
+   backrefs=yes
+   regexp='PATH=(["]*)((?!.*?{{xilinx_path}}).*?)(["]*)$'
+   line="PATH=\1\2:{{xilinx_path}}\3"
+  tags: [xilinx]

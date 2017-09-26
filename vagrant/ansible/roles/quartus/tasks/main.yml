@@ -1,0 +1,64 @@
+# Add 32-bit dependencies for Quartus binaries 
+- lineinfile: dest=/var/lib/dpkg/arch line="amd64" create=yes
+- lineinfile: dest=/var/lib/dpkg/arch line="i386" create=yes
+  register: add_i386
+- name: Add Quartus deps
+  apt: name={{item}} update_cache={{add_i386.changed}}
+  with_items: ['multiarch-support', 'libc6:i386','libncurses5:i386', 'libstdc++6:i386', 'lib32z1', 'libxext6:i386', 'libx11-6:i386', 'libxdmcp-dev:i386', 'libxau-dev:i386', 'libfreetype6-dev:i386', 'libfontconfig:i386', 'expat:i386', 'libsm6:i386', 'libxrender-dev:i386', 'libudev-dev:i386']
+  tags: [quartus]
+
+# This assumes you have downloaded the 3GB install shell script into /opt/altera/quartus
+- name: Unpack Quartus II tar
+  shell: sh ./11.1sp2_259_quartus_free_linux.sh --nox11 --noexec
+  args:
+    chdir: /opt/altera/quartus
+    creates: /opt/altera/quartus/11.1sp2_259_quartus_free_linux/setup
+  tags: [quartus]
+
+- name: Run setup
+  shell: |
+    mv altera_installer/bin/libpng12.so.0 ../
+    bash install --auto /opt/altera/quartus/
+  args:
+    chdir: /opt/altera/quartus/11.1sp2_259_quartus_free_linux/
+    creates: /opt/altera/quartus/quartus/bin/quartus
+  tags: [quartus]
+
+- name: Enable USB Blaster
+  copy: 
+    src: /opt/altera/quartus/99-usbblaster.rules
+    dest: /etc/udev/rules.d/
+    owner: root
+    group: root
+    mode: 0644 
+  tags: [quartus]
+
+- name: Reload udev
+  shell: udevadm control --reload
+  tags: [quartus]
+
+- name: Create /etc/jtagd
+  file: 
+    path: /etc/jtagd
+    state: directory
+  tags: [quartus]
+
+- name: Enable JTAG rules
+  copy: 
+    src: /opt/altera/quartus/pgm_parts.txt
+    dest: /etc/jtagd/jtagd.pgm_parts
+    owner: vagrant
+    group: vagrant
+    mode: 0644 
+  tags: [quartus]
+
+- name: add {{quartus_path}} to path
+  vars:
+    quartus_path: /opt/altera/quartus/quartus/bin
+  lineinfile: >
+   dest=/etc/environment
+   state=present
+   backrefs=yes
+   regexp='PATH=(["]*)((?!.*?{{quartus_path}}).*?)(["]*)$'
+   line="PATH=\1\2:{{quartus_path}}\3"
+  tags: [quartus]

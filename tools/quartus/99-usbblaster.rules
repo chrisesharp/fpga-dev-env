@@ -1,0 +1,7 @@
+# For Altera USB-Blaster permissions.
+ACTION=="add",\
+SUBSYSTEM=="usb",\
+DRIVERS=="usb",\
+ATTRS{idVendor}=="09fb",\
+ATTRS{idProduct}=="6001",\
+MODE:="0666"

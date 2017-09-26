@@ -1,0 +1,28 @@
+#!/bin/bash
+
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+exec socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" & 
+ip=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
+xhost + $ip
+
+rVM=$(VBoxManage list runningvms |grep fpga-dev-env |cut -c2-11)
+eVM=$(VBoxManage list vms |grep fpga-dev-env |cut -c2-11)
+
+if [ $1 == "suspend" ] || [ $1 == "halt" ];
+then
+  vagrant $1
+  cd -
+  exit 0
+fi
+
+if [ -z $rVM ];
+then
+  if [ -z $eVM ];
+  then
+    vagrant up
+  else
+    vagrant resume
+  fi
+fi
+export DISPLAY=$ip:0 && vagrant ssh -c "$@"
+cd -
