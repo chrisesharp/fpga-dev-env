@@ -5,5 +5,5 @@
     state: link
   with_items:
     - { path: '11.1sp2_259_quartus_free_linux.sh', dest: 'altera/quartus/11.1sp2_259_quartus_free_linux.sh' }
-    - { path: 'Xilinx_ISE_DS_Lin_14.7_1015_1.tar', dest: 'xilinx/Xilinx_ISE_DS_Lin_14.7_1015_1.tar' }
+    - { path: 'Xilinx_ISE_DS_Lin_14.7_1015_1.tar', dest: 'Xilinx/Xilinx_ISE_DS_Lin_14.7_1015_1.tar' }
     - { path: 'diamond_3_9-sp1_x64-119-1-x86_64-linux.rpm', dest: 'lattice/diamond_3_9-sp1_x64-119-1-x86_64-linux.rpm' }
