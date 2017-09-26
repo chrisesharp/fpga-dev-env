@@ -23,9 +23,9 @@
   tags: [quartus]
 
 - name: Run setup
-  shell: bash ./linux_installer/quartus_free/install --auto /opt/altera/quartus/
+  shell: bash ./install --auto /opt/altera/quartus/
   args:
-    chdir: /opt/altera/quartus/11.1sp2_259_quartus_free_linux/
+    chdir: /opt/altera/quartus/11.1sp2_259_quartus_free_linux/linux_installer/quartus_free
     creates: /opt/altera/quartus/quartus/bin/quartus
   tags: [quartus]
 

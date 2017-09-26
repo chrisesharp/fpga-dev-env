@@ -19,6 +19,13 @@
     creates: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/ise
   tags: [xilinx]
 
+- name: Copy ise batch script
+  copy:
+    src: /opt/Xilinx/run_ise.sh
+    dest: /opt/Xilinx/14.7/ISE_DS/
+    mode: 755
+  tags: [xilinx]
+
 - name: Download ISE USB drivers
   shell: git clone git://git.zerfleddert.de/usb-driver
   args:

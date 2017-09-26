@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd "$( dirname "${BASH_SOURCE[0]}" )" 
+./fpga-sh /opt/Xilinx/14.7/ISE_DS/run_ise.sh
+cd -

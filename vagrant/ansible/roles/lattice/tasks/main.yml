@@ -10,14 +10,22 @@
 
 # Need diamond_3_9-sp1_x64-119-1-x86_64-linux.rpm to be downloaded from Lattice site first
 # from http://www.latticesemi.com/Products/DesignSoftwareAndIP/FPGAandLDS/LatticeDiamond.aspx#linux
+- name: copy Lattice Diamond into install
+  shell: |
+    rpm2cpio ../diamond_3_9-base_x64-99-2-x86_64-linux.rpm | cpio -idmv  
+    rpm2cpio ../diamond_3_9-sp1_x64-119-1-x86_64-linux.rpm | cpio -idmv  
+  args:
+    chdir: /opt/lattice/diamond
+    creates: /opt/lattice/diamond/usr/local/diamond/3.9_x64/bin/
+  tags: [lattice]
+
 - name: Unpack Lattice Diamond
   shell: |
-    rpm2cpio ../diamond_3_9-sp1_x64-119-1-x86_64-linux.rpm | cpio -idmv  
-    RPM_INSTALL_PREFIX=$PWD/usr/local bash postin.sh
+    RPM_INSTALL_PREFIX=/opt/lattice/diamond/usr/local bash postin.sh
     cp -Rva --no-preserve=ownership ./usr/local/diamond /usr/local/
   args:
     chdir: /opt/lattice/diamond
-    creates: /opt/lattice/diamond/
+    creates: /usr/local/diamond/3.9_x64/bin/lin64/diamond
   tags: [lattice]
 
 - name: Install Lattice Driver fix

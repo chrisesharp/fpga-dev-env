@@ -1,16 +1,19 @@
 .vagrant
 tools/media/*
 tools/lattice/diamond_3_9-sp1_x64-119-1-x86_64-linux.rpm
+tools/lattice/diamond_3_9-base_x64-99-2-x86_64-linux.rpm
+tools/lattice/diamond/usr/
 tools/quartus/11.1sp2_259_quartus_free_linux.sh
 tools/quartus/11.1sp2_259_quartus_free_linux/
 tools/quartus/libpng12.so.0
 tools/quartus/quartus/
+tools/quartus/ip/
+tools/quartus/nios2eds/
 tools/xilinx/usb-driver/
 tools/xilinx/Xilinx_ISE_DS_Lin_14.7_1015_1.tar
 tools/xilinx/Xilinx_ISE_DS_Lin_14.7_1015_1/
 tools/xilinx/14.7/
 tools/mojo/
 tools/pipistrello/fpgaprog-linux/
-tools/lattice/diamond/usr/
 
 vagrant/ansible/dev.retry
