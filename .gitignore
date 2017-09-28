@@ -15,5 +15,4 @@ tools/xilinx/Xilinx_ISE_DS_Lin_14.7_1015_1/
 tools/xilinx/14.7/
 tools/mojo/
 tools/pipistrello/fpgaprog-linux/
-
 vagrant/ansible/dev.retry
