@@ -7,12 +7,15 @@ There are, however, some manual steps you do need to do, unfortuately, as a one-
 
 * Download Quartus II Web edition from the Intel Altera website at https://www.altera.com/downloads/software/quartus-ii-we/110sp1.html
 
-* Copy the downloaded file `11.1sp2_259_quartus_free_linux.sh` to `tools/quartus`
+* Copy the downloaded file `11.1sp2_259_quartus_free_linux.sh` to `tools/media`
 
 * Download ISE from Xilinx website at https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_ISE_DS_Lin_14.7_1015_1.tar&akdm=1
 * Copy the downloaded file
-`Xilinx_ISE_DS_Lin_14.7_1015_1.tar` to `tools/xilinx`
+`Xilinx_ISE_DS_Lin_14.7_1015_1.tar` to `tools/media`
 
 * Download Lattice Diamond from the website at
 http://www.latticesemi.com/Products/DesignSoftwareAndIP/FPGAandLDS/LatticeDiamond.aspx
-* Copy the downloaded file `diamond_3_9-sp1_x64-119-1-x86_64-linux.rpm` to `tools/lattice` 
+* Copy the downloaded file `diamond_3_9-sp1_x64-119-1-x86_64-linux.rpm` to `tools/media`
+
+* Create a directory under your home directory called `~/Development/FPGA`
+  This will be mounted in your vagrant vm as `/FPGA`. You could, ofcourse, change the line in the `Vagrantfile` to be from anywhere and to anywhere you like.
