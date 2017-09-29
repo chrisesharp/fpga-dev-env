@@ -33,6 +33,7 @@ Vagrant.configure('2') do |config|
   config.vm.synced_folder "./tools/xilinx","/opt/Xilinx", disabled: false
   config.vm.synced_folder "./tools/mojo","/opt/mojo", disabled: false
   config.vm.synced_folder "./vagrant","/vagrant", disabled: false
+  config.vm.synced_folder "~/Development/FPGA","/FPGA", disabled: false
 
   config.ssh.forward_agent = true
   config.ssh.forward_x11 = true
