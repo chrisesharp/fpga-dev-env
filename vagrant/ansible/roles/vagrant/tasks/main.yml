@@ -1,4 +1,19 @@
 - block:
+# This assumes you have downloaded the 8GB(!) install shell script into /home/vagrant/altera/
+  - name: Unpack Quartus II 17.0 tar
+    unarchive:
+      src: /opt/media/Quartus-lite-17.0.2.602-linux.tar
+      dest: /home/vagrant/altera/
+    args:
+      creates: /home/vagrant/altera/setup.sh
+    tags: [quartus]
+  - name: Silent install Quartus 17 in /home/vagrant/altera
+    shell:
+#      ./setup.sh --installdir . --mode unattended
+      ./components/QuartusLightSetup-17.0.0.595-linux.run --mode unattended --unattendedmodeui none --installdir "."
+    args:
+      creates: /home/vagrant/altera/quartus/bin/quartus
+    tags: [quartus]
   - name: Create .Xauthority
     file: 
       path: /home/vagrant/.Xauthority

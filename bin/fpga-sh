@@ -8,9 +8,16 @@ xhost + $ip
 rVM=$(VBoxManage list runningvms |grep fpga-dev-env |cut -c2-11)
 eVM=$(VBoxManage list vms |grep fpga-dev-env |cut -c2-11)
 
-if [ $1 == "suspend" ] || [ $1 == "halt" ];
+if [ -z $1 ];
 then
-  vagrant $1
+  CMD="bash"
+else
+  CMD="$@"
+fi
+
+if [ $CMD == "suspend" ] || [ $CMD == "halt" ];
+then
+  vagrant $CMD
   cd -
   exit 0
 fi
@@ -24,5 +31,5 @@ then
     vagrant resume
   fi
 fi
-export DISPLAY=$ip:0 && vagrant ssh -c "$@"
+export DISPLAY=$ip:0 && vagrant ssh -c "$CMD"
 cd -

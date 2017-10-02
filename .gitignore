@@ -16,3 +16,13 @@ tools/xilinx/14.7/
 tools/mojo/
 tools/pipistrello/fpgaprog-linux/
 vagrant/ansible/dev.retry
+vagrant/v_home/altera/components
+vagrant/v_home/altera/ip
+vagrant/v_home/altera/logs
+vagrant/v_home/altera/nios2eds
+vagrant/v_home/altera/quartus
+vagrant/v_home/altera/readme.txt
+vagrant/v_home/altera/setup.sh
+vagrant/v_home/altera/uninstall
+vagrant/v_home/.config/Xilinx
+vagrant/v_home/.config/Trolltech.conf

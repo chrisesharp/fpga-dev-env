@@ -7,6 +7,16 @@
   with_items: ['multiarch-support', 'libc6:i386','libncurses5:i386', 'libstdc++6:i386', 'lib32z1', 'libxext6:i386', 'libx11-6:i386', 'libxdmcp-dev:i386', 'libxau-dev:i386', 'libfreetype6-dev:i386', 'libfontconfig:i386', 'expat:i386', 'libsm6:i386', 'libxrender-dev:i386', 'libudev-dev:i386']
   tags: [quartus]
 
+
+# This assumes you have downloaded the 8GB(!) install shell script into /home/vagrant/altera/
+- name: Unpack Quartus II 17.0 tar
+  unarchive: 
+    src: /opt/media/Quartus-lite-17.0.2.602-linux.tar
+    dest: /home/vagrant/altera/
+  args:
+    creates: /home/vagrant/altera/setup.sh
+  tags: [quartus]
+
 # This assumes you have downloaded the 3GB install shell script into /opt/altera/quartus
 - name: Unpack Quartus II tar
   shell: sh ./11.1sp2_259_quartus_free_linux.sh --nox11 --noexec
@@ -66,4 +76,15 @@
    backrefs=yes
    regexp='PATH=(["]*)((?!.*?{{quartus_path}}).*?)(["]*)$'
    line="PATH=\1\2:{{quartus_path}}\3"
+  tags: [quartus]
+
+- name: add {{quartus17_path}} to path
+  vars:
+    quartus_path: /home/vagrant/altera/quartus/bin
+  lineinfile: >
+   dest=/etc/environment
+   state=present
+   backrefs=yes
+   regexp='PATH=(["]*)((?!.*?{{quartus17_path}}).*?)(["]*)$'
+   line="PATH=\1\2:{{quartus17_path}}\3"
   tags: [quartus]
