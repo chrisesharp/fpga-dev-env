@@ -21,6 +21,7 @@ vagrant/v_home/altera/ip
 vagrant/v_home/altera/logs
 vagrant/v_home/altera/nios2eds
 vagrant/v_home/altera/quartus
+vagrant/v_home/altera/modelsim_ase/
 vagrant/v_home/altera/readme.txt
 vagrant/v_home/altera/setup.sh
 vagrant/v_home/altera/uninstall

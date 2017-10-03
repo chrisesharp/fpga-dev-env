@@ -33,6 +33,7 @@ Vagrant.configure('2') do |config|
   config.vm.synced_folder "./tools/xilinx","/opt/Xilinx", disabled: false
   config.vm.synced_folder "./tools/mojo","/opt/mojo", disabled: false
   config.vm.synced_folder "./vagrant","/vagrant", disabled: false
+  config.vm.synced_folder "./ansible","/ansible", disabled: false
   config.vm.synced_folder "~/Development/FPGA","/FPGA", disabled: false
 
   config.ssh.forward_agent = true
@@ -87,9 +88,9 @@ Vagrant.configure('2') do |config|
   config.vm.define :dev do |dev|
     # Port mappings for various services inside the VM
 
-    dev.vm.provision :shell, path: "vagrant/bootstrap.sh"
+    dev.vm.provision :shell, path: "ansible/bootstrap.sh"
     dev.vm.provision :shell, inline: 'PYTHONUNBUFFERED=1 ansible-playbook \
-                                      /vagrant/ansible/dev.yml -c local'
+                                      /ansible/dev.yml -c local'
   end
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box

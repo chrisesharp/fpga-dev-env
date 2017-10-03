@@ -1,0 +1,6 @@
+#!/bin/bash
+
+OLDPATH=${PATH}
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/vagrant/altera/quartus/bin
+quartus
+export PATH=$OLDPATH

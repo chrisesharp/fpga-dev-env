@@ -7,7 +7,6 @@
   with_items: ['multiarch-support', 'libc6:i386','libncurses5:i386', 'libstdc++6:i386', 'lib32z1', 'libxext6:i386', 'libx11-6:i386', 'libxdmcp-dev:i386', 'libxau-dev:i386', 'libfreetype6-dev:i386', 'libfontconfig:i386', 'expat:i386', 'libsm6:i386', 'libxrender-dev:i386', 'libudev-dev:i386']
   tags: [quartus]
 
-
 # This assumes you have downloaded the 8GB(!) install shell script into /home/vagrant/altera/
 - name: Unpack Quartus II 17.0 tar
   unarchive: 
@@ -38,6 +37,28 @@
     chdir: /opt/altera/quartus/11.1sp2_259_quartus_free_linux/linux_installer/quartus_free
     creates: /opt/altera/quartus/quartus/bin/quartus
   tags: [quartus]
+
+# This assumes you have downloaded the 8GB(!) install shell script into /home/vagrant/altera/
+- name: Unpack Quartus 17.0 tar
+  unarchive:
+    src: /opt/media/Quartus-lite-17.0.2.602-linux.tar
+    dest: /home/vagrant/altera/
+  args:
+    creates: /home/vagrant/altera/setup.sh
+  tags: [quartus]
+
+- name: Silent install Quartus 17 in /home/vagrant/altera
+  shell:
+    ./components/QuartusLightSetup-17.0.0.595-linux.run --mode unattended --unattendedmodeui none --installdir "."
+  args:
+    creates: /home/vagrant/altera/quartus/bin/quartus
+  tags: [quartus]
+
+- name: Copy quartus17 shell wrapper nto /opt/altera/quartus/quartus/bin
+  file:
+    src: /home/vagrant/altera/quartus17
+    dest: /opt/altera/quartus/quartus/bin/quartus17
+    state: link
 
 - name: Enable USB Blaster
   copy: 
@@ -78,13 +99,13 @@
    line="PATH=\1\2:{{quartus_path}}\3"
   tags: [quartus]
 
-- name: add {{quartus17_path}} to path
-  vars:
-    quartus_path: /home/vagrant/altera/quartus/bin
-  lineinfile: >
-   dest=/etc/environment
-   state=present
-   backrefs=yes
-   regexp='PATH=(["]*)((?!.*?{{quartus17_path}}).*?)(["]*)$'
-   line="PATH=\1\2:{{quartus17_path}}\3"
-  tags: [quartus]
+#- name: add {{quartus17_path}} to path
+#  vars:
+#    quartus17_path: /home/vagrant/altera/quartus/bin
+#  lineinfile: >
+#   dest=/etc/environment
+#   state=present
+#   backrefs=yes
+#   regexp='PATH=(["]*)((?!.*?{{quartus17_path}}).*?)(["]*)$'
+#   line="PATH=\1\2:{{quartus17_path}}\3"
+#  tags: [quartus]

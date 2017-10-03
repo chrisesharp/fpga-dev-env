@@ -1,5 +1,5 @@
 #!/bin/bash
 
 cd "$( dirname "${BASH_SOURCE[0]}" )" 
-./fpga-sh quartus16
+./fpga-sh quartus17
 cd -

@@ -1,3 +1,9 @@
+- name: Vagrant user-specific
+  hosts: localhost
+  remote_user: vagrant
+  roles:
+    - vagrant
+
 - name: Root level
   hosts: localhost
   remote_user: root
@@ -10,8 +16,3 @@
     - quartus
     - lattice
 
-- name: Vagrant user-specific
-  hosts: localhost
-  remote_user: vagrant
-  roles:
-    - vagrant
